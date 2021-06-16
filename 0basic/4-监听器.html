@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <!-- 在使用计算属性时和正常data属性一样 -->
+    <div id="app">
+        {{count}}
+        <button @click="add()">click to add</button>
+        {{watch1}}----{{watch2}} <br>
+        <p>user:{{user.name}} <br>
+            age:{{user.age}}
+        </p>
+    </div>
+    
+    <script>
+        const app = new Vue({
+            el:"#app",
+            data:{
+                msg:"hello world!",
+                count:0,
+                watch1:"first",
+                watch2:"second",
+                user:{
+                    name:"lijiali",
+                    age:23
+                }
+            },
+            methods:{
+                add(){
+                    this.count++;
+                }
+            },
+            watch:{
+                // 监听一个属性变化
+                count(newVal,oldVal){
+                    this.watch1 = "first" + newVal;
+                    this.watch2 = "second" + newVal;
+                    console.log("newVal:",newVal);
+                    console.log("oldVal:",oldVal);
+                },
+                //监听一个对象变化
+                user:{
+                    //需要用到handler
+                    handler(newVal,oldVal){
+                        console.log("haha");
+                    },
+                    deep:true//深度观察：对象中任何一个值更新都会触发
+                },
+                //监听一个对象特定属性的变化
+                "user.age":{
+                    //需要用到handler
+                    handler(newVal,oldVal){
+                        console.log("newVal:",newVal);
+                        console.log("oldVal:",oldVal);
+                    },
+                }
+            }
+        });
+    </script>
+</body>
+</html>

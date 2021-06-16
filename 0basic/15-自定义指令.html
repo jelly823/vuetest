@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        //全局自定义指令
+        Vue.directive('demo0_show', {
+            bind(el, binding, vnode) {
+                let s = JSON.stringify;
+                el.innerHTML = 'name: ' + s(binding.name) + '<br>' +
+                    'value: ' + s(binding.value) + '<br>' +
+                    'expression: ' + s(binding.expression) + '<br>' +
+                    'argument: ' + s(binding.arg) + '<br>' +
+                    'modifiers: ' + s(binding.modifiers) + '<br>' +
+                    'vnode keys: ' + Object.keys(vnode).join(', ')
+            }
+        });
+
+        const Foo = {
+            //局部注册指令，组件中可以接收一个directives选项
+            directives: {
+                demo1_focus: {
+                    //指令的定义：包含生命周期有bind(),inserted(),update(),componentUpdated(),unbind()。在vue3中与vue的生命周期统一了
+                    //钩子函数的参数 (即 el、binding、vnode 和 oldVnode)
+                    inserted(el) {
+                        el.focus();//这个是自带的focus方法
+                    }
+                },
+                demo2_showName: {}
+            },
+            data() {
+                return {}
+            },
+            template: `<div>组件Foo:<input v-demo1_focus></div>`
+        }
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                msg: "hello app!",
+            },
+            components: {
+                Foo,
+            },
+            template: `<div>根元素<div  v-demo0_show:lijiali.haha="msg"></div> <br>
+            引入一个Foo：<Foo></Foo> 
+            </div>`,
+        });
+    </script>
+</body>
+
+</html>

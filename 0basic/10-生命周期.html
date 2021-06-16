@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">{{msg}}</div>
+    <script>
+        const app = new Vue({
+            el:"#app",
+            data:{
+                msg:"hello world!"
+            },
+            beforeCreate(){
+                //创建之前
+                console.log("beforeCreate");
+            },
+            async created(){
+                //用于请求后端接口来获取数据
+                console.log("created");
+                //当前真实的根元素，在这个阶段是获取不到的
+                console.log(this.$el);//undefined
+                //该阶段时间较长的话可以结合异步操作使用async和await
+            },
+            beforeMount(){
+                //挂载之前
+                console.log("beforeMount");
+            },
+            mounted(){
+                //渲染完成
+                console.log("mounted");
+                //该阶段可以获取到根元素
+                console.log(this.$el);//div#app
+            },
+            beforeUpdate(){
+                //更新之前
+                console.log("beforeUpdate");
+            },
+            updated(){
+                //更新完成
+                console.log("updated");
+            },
+            beforeDestory(){
+                //组件销毁之前
+                console.log("beforeDestory");
+            },
+            destoryed(){
+                //销毁完成
+                console.log("destoryed");
+            }
+        });
+    </script>
+</body>
+</html>

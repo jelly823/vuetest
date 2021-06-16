@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        //sync可以定义多个类似v-model的效果
+        const Bar = {
+            methods:{
+                BarClick(){
+                    this.$emit("sayHello",1,2);
+                },
+                BarClose(){
+                    // 2.[ update:myPropName ] 是必写部分，表示当前需要更新的值是谁，后面参数带上更新值
+                    this.$emit("update:visible",false);
+                }
+            },
+            //1.这里声明visible属性
+            props:["visible"],
+            //这里对应v-show="visible"
+            template: `<div v-show="visible">组件Bar：
+                <button @click="BarClick">
+                    BarClick emit ‘sayHello’ to Father
+                </button>
+
+                <button @click="BarClose">BarClose sync 处理v-show</button>
+                </div>`,
+        };
+        const Foo = {
+            components: {
+                Bar,
+            },
+            data() {
+                return {
+                    msg: "Foo---msg！",
+                    showBar: true
+                }
+            },
+            methods:{
+                handleSayhello(a,b){
+                    alert("在Foo里处理了子组件Bar发射出的sayHello事件");
+                    alert(a+b);
+                },
+                handleShowBar(){
+                    this.showBar = true;
+                }
+            },
+            //3.在组件Bar中设置 :visible.sync="showBar"，后面还可以接着 :bar属性名.sync="对应foo属性"
+            template: `<div>组件Foo中引用一个Bar：
+                <button @click="handleShowBar">showBar</button>
+                <Bar  @sayHello="handleSayhello" :visible.sync="showBar"></Bar>。
+                <br> 这个msg是Foo里面的：{{msg}} 
+                </div>`,
+        }
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                msg: "app---msg！",
+            },
+            components: {
+                Foo,
+            },
+            template: `<div>根元素引入一个Foo：<Foo></Foo>。<br> 这个msg是app里面的：{{msg}}</div>`
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    
+    <script>
+        const PhotoItem = {
+            props:{
+                photoUrl:'',
+                photoName:'',
+            },
+            template:`
+                <div>
+                    <img :src="photoUrl">
+                    <p>{{photoName}}</p>
+                </div>
+            `,
+        };
+        //愚蠢问题日常记录啦：
+        //<img :src="photoUrl">一开始写成<img src={{photoUrl}}>注意区分属性的绑定和模版字符串哦！
+        const app = new Vue({
+            el:"#app",
+            data:{
+                app_photoUrl:"assets/位图.png",
+                app_photoName:"lijiali photo",
+            },
+            components:{
+                PhotoItem,
+            },
+            template:`
+                <div>
+                    <PhotoItem :photoUrl="app_photoUrl" :photoName="app_photoName"></PhotoItem>
+                </div>
+            `,
+        });
+    </script>
+</body>
+</html>

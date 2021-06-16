@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        //组件的输入：props
+        //组件的输出：自定义的事件
+        const Bar = {
+            methods:{
+                BarClick(){
+                    //this.$emit("sayHello");//将这个方法向外暴露的时候，使用时的函数名叫做sayHello
+                    this.$emit("sayHello",1,2);//后面是参数
+                },
+                BarClose(){
+                    this.$emit("closeBar");
+                }
+            },
+            template: `<div>组件Bar：
+                <button @click="BarClick">
+                    BarClick emit ‘sayHello’ to Father
+                </button>
+                <button @click="BarClose">BarClose emit 'closeBar' to Father</button>
+                </div>`,//点击这个按钮BarClick事件，就可以触发“将sayHello发射给父组件”这一事件
+        };
+        const Foo = {
+            components: {
+                Bar,
+            },
+            data() {
+                return {
+                    msg: "Foo---msg！",
+                    showBar: true
+                }
+            },
+            methods:{
+                //在Foo里对@sayHello 绑定事件进行处理
+                // handleSayhello(){
+                //     alert("在Foo里处理了子组件Bar发射出的sayHello事件");
+                // }
+                handleSayhello(a,b){//接收两个参数
+                    alert("在Foo里处理了子组件Bar发射出的sayHello事件");
+                    alert(a+b);
+                },
+                handleCloseBar(){
+                    this.showBar = false;
+                },
+                handleShowBar(){
+                    this.showBar = true;
+                }
+            },
+            template: `<div>组件Foo中引用一个Bar：
+                <button @click="handleShowBar">showBar</button>
+                <Bar  v-show="showBar" @sayHello="handleSayhello" @closeBar="handleCloseBar"></Bar>。
+                <br> 这个msg是Foo里面的：{{msg}} 
+                </div>`,//在这里使用Bar的时候，可以像正常事件一样 @sayHello 绑定事件，在handleSayhello中进行实际处理
+        }
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                msg: "app---msg！",
+            },
+            components: {
+                Foo,
+            },
+            template: `<div>根元素引入一个Foo：<Foo></Foo>。<br> 这个msg是app里面的：{{msg}}</div>`
+        });
+    </script>
+</body>
+</html>

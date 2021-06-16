@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        const Foo = {
+            data(){
+                return {
+                    count:1,
+                    msg:"foo-msg"
+                }
+            },
+            //1.用slot设置插槽，中间给的就是默认值
+            // template: `<div>
+            //     组件Foo 
+            //     <slot>这里给一个插槽，并且当前属于默认值，如果有新的值就会覆盖</slot>
+            //     </div>`,
+
+            //2.具名插槽
+            // template: `<div>
+            //     组件Foo
+                
+            //     <header>
+            //         <slot name="header"></slot>
+            //     </header>
+
+            //     <main>
+            //     </main>
+
+            //     <footer>
+            //         <slot name="footer"></slot>
+            //     </footer>
+                
+            //     </div>`,
+
+            //3.作用域插槽，在slot中加入属性绑定，可多个  :msg="msg" :count="count"
+            template: `<div>
+                组件Foo 
+                
+                <header>
+                    <slot name="header" :msg="msg" :count="count"></slot>
+                </header>
+
+                <main>
+                </main>
+
+                <footer>
+                    <slot name="footer"></slot>
+                </footer>
+                
+                </div>`,
+
+        }
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                hshs:"",
+                msg:"app-msg"
+            },
+            components: {
+                Foo,
+            },
+            //1.在这里对普通插槽进行测试
+            // template: `<div>
+            //     <Foo>测试一下新的值哦</Foo>
+            //     </div>`,
+
+            //2.在这里对具名插槽进行测试
+            // template: `<div>
+            //     <Foo>
+
+            //         <template v-slot:header>
+            //             I'm a header 
+            //         </template>
+
+            //         // 简写用#
+            //         <template #footer>
+            //             I'm a footer 
+            //         </template>
+                    
+            //     </Foo>
+            //     </div>`,
+
+            //3.在这里对作用域插槽进行测试
+            template: `<div>
+                <Foo>
+
+                    <template v-slot:header="data">
+                        I'm a header {{data.msg}}
+                    </template>
+
+                    // 简写用#
+                    <template #footer>
+                        I'm a footer 
+                    </template>
+                    
+                </Foo>
+                </div>`,
+        });
+    </script>
+</body>
+
+</html>

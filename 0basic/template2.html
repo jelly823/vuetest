@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <div id="blog-post-demo">{{posts}}</div>
+    <script>
+        const Bar = {
+            template: `<div>组件Bar</div>`
+        };
+        const Foo = {
+            components: {
+                Bar,
+            },
+            data() {
+                return {
+                    msg: "Foo---msg！"
+                }
+            },
+            template: `<div>组件Foo中引用一个Bar：<Bar></Bar>。<br> 这个msg是Foo里面的：{{msg}} </div>`
+        }
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                msg: "app---msg！",
+            },
+            components: {
+                Foo,
+            },
+            template: `<div>根元素引入一个Foo：<Foo></Foo>。<br> 这个msg是app里面的：{{msg}}</div></div>`
+        });
+    </script>
+</body>
+
+</html>

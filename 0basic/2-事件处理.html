@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">{{msg}}
+        <button @click = "reverse()"> click to reverse</button>
+        <p>{{count}}</p>
+        <button v-on:click = "add(3,$event)"> click to add3</button>
+        <button @click = "add(2,$event)"> click to add2</button>
+    </div>
+    
+    <script>
+        const app = new Vue({
+            el:"#app",
+            data:{
+                msg:"hello world!",
+                count:0
+            },
+            methods:{
+                add(number,e){
+                    this.count+=number; 
+                    console.log(number,e);  
+                },
+                reverse(){
+                    this.msg = this.msg.split("").reverse().join("");
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <script>
+        //props：单向数据流（不可被修改）
+        const Foo = {
+            props: {
+                //1.在组件Foo中定义一个参数msg
+                //类型
+                //必须值
+                //默认值
+                //校验规则
+                msg: {
+                    type: String,
+                    default: "hello",
+                    required:false  //这里可以设置true表示该参数必须设置
+                },
+                size:{
+                    //small medium big
+                    validator(value){
+                        //定义校验规则
+                        console.log(value);
+                        return value === "small";
+                    }
+                }
+            },//也可以是一个数组
+            components: {
+            },
+            data() {
+                return {};
+            },
+            template: `<div>组件Foo - {{msg}}</div>`,
+        }
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                hshs:""
+            },
+            components: {
+                Foo,
+            },
+            //2.在组件中对msg参数进行传值
+            template: `<div>
+                <Foo msg="app下的msg" size="big"></Foo>
+                <Foo :msg="1"></Foo>
+                </div>`,//用bind可以将字符串1转化为number
+        });
+    </script>
+</body>
+
+</html>

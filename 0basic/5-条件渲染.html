@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app">
+        <div v-if='user.age < 18'>{{user.name}}小于18岁呢！</div>
+        <div v-else-if='user.age === 18'>{{user.name}}18岁哦！</div>
+        <div v-else='user.age > 18'>{{user.name}}超过18岁啦！</div>
+        <div v-show=isShow>{{user.name}}用v-show显示出来啦！</div>
+        <button @click="showToggle">showToggle</button>
+    </div>
+    <script>
+        const app = new Vue({
+            el:"#app",
+            data:{
+                user:{
+                    name:"lijiali",
+                    age:23,
+                },
+                isShow:true
+            },
+            methods:{
+                showToggle(){
+                    this.isShow = !this.isShow;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

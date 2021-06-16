@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+<body>
+    <div id="app"></div>
+    <script>
+        //缺点：v-model只能用一次，可以往后看sync
+        const Bar = {
+            methods:{
+                BarClick(){
+                    this.$emit("sayHello",1,2);
+                },
+                BarClose(){
+                    //this.$emit("closeBar");//具体处理事件更改
+                    this.$emit("input",false);//该值设置给 value
+                }
+            },
+            //5.也可以自定义model参数（因为对于特定组件 input和value 可读性较差）
+            // model:{
+            //     prop:"visible",//相当于“value”
+            //     event:"close"//相当于“input”
+            // },
+            //1.先声明value
+            props:["value"],
+            //2.给Bar组件v-show="value"，并BarClose改为 input事件 处理v-show
+            template: `<div v-show="value">组件Bar：
+                <button @click="BarClick">
+                    BarClick emit ‘sayHello’ to Father
+                </button>
+
+                <button @click="BarClose">BarClose input事件 处理v-show</button>
+                </div>`,
+        };
+        const Foo = {
+            components: {
+                Bar,
+            },
+            data() {
+                return {
+                    msg: "Foo---msg！",
+                    showBar: true
+                }
+            },
+            methods:{
+                handleSayhello(a,b){
+                    alert("在Foo里处理了子组件Bar发射出的sayHello事件");
+                    alert(a+b);
+                },
+                handleShowBar(){
+                    this.showBar = true;
+                }
+            },
+            //4.添加上v-model="showBar"，showBar的值将会传递给Bar组件的props中的value
+            template: `<div>组件Foo中引用一个Bar：
+                <button @click="handleShowBar">showBar</button>
+                <Bar  @sayHello="handleSayhello" v-model="showBar"></Bar>。
+                <br> 这个msg是Foo里面的：{{msg}} 
+                </div>`,
+            //<Bar v-model="showBar"></Bar>
+            //相当于<Bar v-bind:value="showBar" v-on:input="showBar = argument[0]"></Bar>
+            //在Bar中处理  this.$emit('input', value)
+        }
+
+        const app = new Vue({
+            el: "#app",
+            data: {
+                msg: "app---msg！",
+            },
+            components: {
+                Foo,
+            },
+            template: `<div>根元素引入一个Foo：<Foo></Foo>。<br> 这个msg是app里面的：{{msg}}</div>`
+        });
+    </script>
+</body>
+</html>

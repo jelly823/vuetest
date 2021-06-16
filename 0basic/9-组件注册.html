@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+</head>
+
+<body>
+    <div id="app"></div>
+    <div id="blog-post-demo">{{posts}}</div>
+    <script>
+        //全局注册
+        Vue.component('blog-post', {
+            props: ['title'],//props是向子组件传递数据，把数据作为一个自定义 attribute 传递进来
+            template: '<h3>{{ title }}</h3>'
+        })
+
+        new Vue({
+            el: '#blog-post-demo',
+            data: {
+                posts: [
+                    { id: 1, title: 'My journey with Vue' },
+                    { id: 2, title: 'Blogging with Vue' },
+                    { id: 3, title: 'Why Vue is so fun' }
+                ]
+            }
+        })
+        //局部注册
+        const Bar = {
+            template: `<div>组件Bar</div>`
+        };
+        const Foo = {
+            components: {
+                Bar,//Bar组件在Foo中注册
+            },
+            data() {
+                return {
+                    msg: "Foo---msg！"//组件中的data必须是个函数，返回一个对象哦！
+                }
+            },
+            template: `<div>组件Foo中引用一个Bar：<Bar></Bar>。<br> 这个msg是Foo里面的：{{msg}} </div>`
+        }
+
+        const app = new Vue({
+            el: "#app",//该el之需要用到根元素上即可
+            data: {
+                msg: "app---msg！",
+            },
+            components: {
+                Foo,
+            },
+            template: `<div>根元素引入一个Foo：<Foo></Foo>。<br> 这个msg是app里面的：{{msg}}</div></div>`
+        });
+    </script>
+</body>
+
+</html>

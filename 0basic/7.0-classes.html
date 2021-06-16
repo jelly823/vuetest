@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./node_modules/vue/dist/vue.js"></script>
+    <style>
+        .setRed{
+            color:red;
+        }
+        .setFontSize{
+            font-size: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div :class="classes">{{msg}}</div>
+    </div>
+    <script>
+        const app = new Vue({
+            el:"#app",
+            data:{
+                msg:"hello world!",
+                // 对象形式，设置类的布尔值，代表是否生效
+                // classes:{
+                //     setRed:true,
+                //     setFontSize:true
+                // },
+                // 数组形式，生效的类名字符串，或者联合对象形式使用
+                // classes:[
+                //     "setRed",
+                //     {
+                //         setFontSize:true
+                //     }
+                // ],
+                flag:0
+            },
+            computed:{
+                //计算属性形式，可以依赖于某些值设置class
+                classes(){
+                    return[
+                        "setRed",
+                        {
+                            setFontSize:this.flag===1
+                        }
+                    ]
+                }
+            }
+        });
+    </script>
+</body>
+</html>
