@@ -21,7 +21,7 @@ export default {
     // 对子组件发射出来的进行处理：this.$emit("funName", param);
     // @funName="handleFun" 然后handleFun(param){...do something}
     handleToParent(data) {
-      alert("Child:",data);
+      alert("Child:"+data);
     },
   },
 };
