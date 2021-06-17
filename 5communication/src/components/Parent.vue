@@ -18,8 +18,10 @@ export default {
     };
   },
   methods: {
+    // 对子组件发射出来的进行处理：this.$emit("funName", param);
+    // @funName="handleFun" 然后handleFun(param){...do something}
     handleToParent(data) {
-      alert(data);
+      alert("Child:",data);
     },
   },
 };

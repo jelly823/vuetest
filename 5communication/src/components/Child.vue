@@ -11,6 +11,7 @@ export default {
   props: ["msg"],
   methods: {
     handleClick() {
+      // this.$emit("funName", param);
       this.$emit("to-parent", "emit from child");
     },
   },
